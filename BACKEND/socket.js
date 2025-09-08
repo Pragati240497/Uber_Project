@@ -5,10 +5,15 @@ const captainModel = require('./Models/captain.model');
 let io;
 
 function initializeSocket(server) {
-    io = socketIo(server, {
+    io = require('socket.io')(server, {
         cors: {
-            origin: '*',
-            methods: [ 'GET', 'POST' ]
+            origin: [
+                'http://localhost:5173',
+                'https://uberfrontend-seven.vercel.app',
+                'https://uberfrontend-5cnw1t7ex-pragati240497s-projects.vercel.app'
+            ],
+            methods: ['GET', 'POST'],
+            credentials: true
         }
     });
 
@@ -46,6 +51,7 @@ function initializeSocket(server) {
     });
 }
 
+// Utility to send a message to a specific socket ID
 const sendMessageToSocketId = (socketId, messageObject) => {
     console.log(messageObject);
     if (io) {
