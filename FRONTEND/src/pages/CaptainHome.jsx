@@ -23,10 +23,11 @@ const CaptainHome = () => {
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
 
-  // Get & share captain location
+  // Get & share captain location and listen for new rides
   useEffect(() => {
     if (!captain?._id || !socket) return;
 
+    // Emit join event for captain
     socket.emit('join', { userId: captain._id, userType: 'captain' });
 
     let locationUpdateTimeout;
@@ -41,35 +42,28 @@ const CaptainHome = () => {
             };
             setCaptainLocation(location);
             socket.emit('update-location-captain', { userId: captain._id, location });
-            // Schedule next update
             locationUpdateTimeout = setTimeout(updateLocation, 10000);
           },
           (err) => {
-            console.error('Geolocation error:', err);
-
             if (err.code === 3 && err.message.includes('Timeout')) {
-              console.warn('Retrying geolocation after timeout...');
-              locationUpdateTimeout = setTimeout(updateLocation, 5000); // Retry after 5 seconds
+              locationUpdateTimeout = setTimeout(updateLocation, 5000);
             } else {
-              // For other errors, try again after 15 seconds
               locationUpdateTimeout = setTimeout(updateLocation, 15000);
             }
           },
           { enableHighAccuracy: false, maximumAge: 10000, timeout: 20000 }
         );
-      } else {
-        console.warn('Geolocation is not supported by this browser.');
       }
     };
 
-    updateLocation(); // Initial call
+    updateLocation();
 
+    // Listen for new-ride event
     const handleNewRide = (data) => {
       setRide(data);
       setRideRequests((prev) => [...prev, data]);
       setRidePopupPanel(true);
     };
-
     socket.on('new-ride', handleNewRide);
 
     return () => {
