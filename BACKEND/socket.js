@@ -18,7 +18,7 @@ function initializeSocket(server) {
     });
 
     io.on('connection', (socket) => {
-        console.log(`Client connected: ${socket.id}`);
+    // ...existing code...
 
         socket.on('join', async (data) => {
             const { userId, userType } = data;
@@ -46,18 +46,18 @@ function initializeSocket(server) {
         });
 
         socket.on('disconnect', () => {
-            console.log(`Client disconnected: ${socket.id}`);
+            // ...existing code...
         });
     });
 }
 
 // Utility to send a message to a specific socket ID
 const sendMessageToSocketId = (socketId, messageObject) => {
-    console.log(messageObject);
+    // ...existing code...
     if (io) {
         io.to(socketId).emit(messageObject.event, messageObject.data);
     } else {
-        console.log('Socket.io not initialized.');
+    // ...existing code...
     }
 }
 

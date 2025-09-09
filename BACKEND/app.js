@@ -13,7 +13,10 @@ const rideRoutes = require('./routes/ride.routes');
 connectToDb();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://your-frontend-domain.com'], // Add your deployed frontend URL here
+  origin: [
+    'https://uberfrontend-seven.vercel.app',
+    'https://uberfrontend-5cnw1t7ex-pragati240497s-projects.vercel.app'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
