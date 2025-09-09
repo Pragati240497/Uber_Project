@@ -10,7 +10,8 @@ function initializeSocket(server) {
             origin: [
                 'http://localhost:5173',
                 'https://uberfrontend-seven.vercel.app',
-                'https://uberfrontend-5cnw1t7ex-pragati240497s-projects.vercel.app'
+                'https://uberfrontend-5cnw1t7ex-pragati240497s-projects.vercel.app',
+                'https://uber-project-nu.vercel.app'
             ],
             methods: ['GET', 'POST'],
             credentials: true
